@@ -2,13 +2,26 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { planets, getPlanets, loading } = useContext(PlanetsContext);
+  const { planets, getPlanets, loading, search, setSearch } = useContext(PlanetsContext);
   useEffect(() => {
     getPlanets();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div>
+      <header>
+        <input
+          type="text"
+          data-testid="name-filter"
+          name="search"
+          onChange={ (e) => setSearch(
+            { ...search, filterByName: { name: e.target.value } },
+          ) }
+          value={ search.filterByName.name }
+        />
+      </header>
+      <br />
       {loading
         ? (
           <table>
@@ -38,23 +51,26 @@ function Table() {
               </tr>
             </thead>
             <tbody>
-              {planets.map((planet) => (
-                <tr key={ planet.name }>
-                  <td>{ planet.name }</td>
-                  <td>{ planet.rotation_period }</td>
-                  <td>{ planet.orbital_period }</td>
-                  <td>{ planet.diameter}</td>
-                  <td>{ planet.climate}</td>
-                  <td>{ planet.gravity }</td>
-                  <td>{ planet.terrain }</td>
-                  <td>{ planet.surface_water }</td>
-                  <td>{ planet.population }</td>
-                  <td>{ planet.films }</td>
-                  <td>{ planet.created }</td>
-                  <td>{ planet.edited }</td>
-                  <td>{ planet.url }</td>
-                </tr>
-              ))}
+              { planets
+                .filter((planet) => (planet.name.includes(search.filterByName.name)))
+                .map((planeta) => (
+                  <tr key={ planeta.name }>
+                    <td>{ planeta.name }</td>
+                    <td>{ planeta.rotation_period }</td>
+                    <td>{ planeta.orbital_period }</td>
+                    <td>{ planeta.diameter}</td>
+                    <td>{ planeta.climate}</td>
+                    <td>{ planeta.gravity }</td>
+                    <td>{ planeta.terrain }</td>
+                    <td>{ planeta.surface_water }</td>
+                    <td>{ planeta.population }</td>
+                    <td>{ planeta.films }</td>
+                    <td>{ planeta.created }</td>
+                    <td>{ planeta.edited }</td>
+                    <td>{ planeta.url }</td>
+                  </tr>
+
+                ))}
             </tbody>
           </table>
         )
