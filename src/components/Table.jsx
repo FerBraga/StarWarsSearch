@@ -2,10 +2,26 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { planets, getPlanets, loading, search, setSearch } = useContext(PlanetsContext);
+  const {
+    getPlanets,
+    loading,
+    search,
+    setSearch,
+    filter,
+    setFilter,
+    setFilteredValues,
+    filteredValues,
+    filterFunc,
+    arrayFilter,
+    setPlanets,
+    setFiltro } = useContext(PlanetsContext);
   useEffect(() => {
-    getPlanets();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    getPlanets().then((result) => {
+      setPlanets(result);
+      setFiltro(result);
+    });
+    // console.log(filteredValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -20,7 +36,58 @@ function Table() {
           ) }
           value={ search.filterByName.name }
         />
+        <label htmlFor="column-filter">
+          Coluna:
+          <select
+            value={ filter.column }
+            onChange={ (e) => setFilter(
+              { ...filter, column: e.target.value },
+            ) }
+            data-testid="column-filter"
+          >
+            <option>population</option>
+            <option>orbital_period</option>
+            <option>diameter</option>
+            <option>rotation_period</option>
+            <option>surface_water</option>
+          </select>
+        </label>
+        <label htmlFor="comparison-filter">
+          Operador:
+          <select
+            data-testid="comparison-filter"
+            value={ filter.comparison }
+            onChange={ (e) => setFilter(
+              { ...filter, comparison: e.target.value },
+            ) }
+          >
+            <option>maior que</option>
+            <option>menor que</option>
+            <option>igual a</option>
+          </select>
+        </label>
+        <label htmlFor="value-filter">
+          <input
+            value={ filter.value }
+            type="number"
+            data-testid="value-filter"
+            onChange={ (e) => setFilter(
+              { ...filter, value: e.target.value },
+            ) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ () => {
+            setFilteredValues([...filteredValues, filter]);
+            filterFunc();
+          } }
+        >
+          Filtrar
+        </button>
       </header>
+      <br />
       <br />
       {loading
         ? (
@@ -51,7 +118,7 @@ function Table() {
               </tr>
             </thead>
             <tbody>
-              { planets
+              { arrayFilter
                 .filter((planet) => (planet.name.includes(search.filterByName.name)))
                 .map((planeta) => (
                   <tr key={ planeta.name }>
@@ -72,6 +139,7 @@ function Table() {
 
                 ))}
             </tbody>
+            {console.log(arrayFilter)}
           </table>
         )
         : 'Carregando...'}

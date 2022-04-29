@@ -10,14 +10,37 @@ function Provider({ children }) {
       name: '',
     },
   });
+  const [filter, setFilter] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
+
+  const [filteredValues, setFilteredValues] = useState([]);
+
+  const [arrayFilter, setFiltro] = useState([]);
 
   const getPlanets = async () => {
     const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const { results } = await response.json();
-    console.log(results);
-    setPlanets(results);
-    console.log(planets);
     setLoading(true);
+    return results;
+  };
+
+  const filterFunc = () => {
+    const filtro = planets.filter((planet) => {
+      if (filter.comparison === 'maior que') {
+        return Number(planet[filter.column]) > Number(filter.value);
+      }
+      if (filter.comparison === 'menor que') {
+        return Number(planet[filter.column]) < Number(filter.value);
+      }
+      if (filter.comparison === 'igual a') {
+        return Number(planet[filter.column]) === Number(filter.value);
+      }
+      return planet;
+    });
+    setFiltro(filtro);
   };
 
   const contextValue = {
@@ -26,6 +49,14 @@ function Provider({ children }) {
     loading,
     setSearch,
     search,
+    filter,
+    setFilter,
+    filteredValues,
+    setFilteredValues,
+    filterFunc,
+    arrayFilter,
+    setFiltro,
+    setPlanets,
   };
 
   return (
