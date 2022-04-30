@@ -28,7 +28,7 @@ function Provider({ children }) {
   };
 
   const filterFunc = () => {
-    const filtro = planets.filter((planet) => {
+    const filtro = arrayFilter.filter((planet) => {
       if (filter.comparison === 'maior que') {
         return Number(planet[filter.column]) > Number(filter.value);
       }
