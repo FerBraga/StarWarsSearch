@@ -16,6 +16,13 @@ function Provider({ children }) {
     value: 0,
   });
 
+  const [options, setOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
+
   const [filteredValues, setFilteredValues] = useState([]);
 
   const [arrayFilter, setFiltro] = useState([]);
@@ -41,6 +48,8 @@ function Provider({ children }) {
       return planet;
     });
     setFiltro(filtro);
+    const filtroOptions = options.filter((opcao) => opcao !== filter.column);
+    setOptions(filtroOptions);
   };
 
   const contextValue = {
@@ -57,6 +66,8 @@ function Provider({ children }) {
     arrayFilter,
     setFiltro,
     setPlanets,
+    options,
+    setOptions,
   };
 
   return (

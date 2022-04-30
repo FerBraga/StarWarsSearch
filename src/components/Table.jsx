@@ -14,7 +14,8 @@ function Table() {
     filterFunc,
     arrayFilter,
     setPlanets,
-    setFiltro } = useContext(PlanetsContext);
+    setFiltro,
+    options } = useContext(PlanetsContext);
   useEffect(() => {
     getPlanets().then((result) => {
       setPlanets(result);
@@ -45,11 +46,12 @@ function Table() {
             ) }
             data-testid="column-filter"
           >
-            <option>population</option>
-            <option>orbital_period</option>
-            <option>diameter</option>
-            <option>rotation_period</option>
-            <option>surface_water</option>
+            {options.map((option, index) => (
+              <option key={ index }>
+                {option }
+              </option>
+            ))}
+
           </select>
         </label>
         <label htmlFor="comparison-filter">
