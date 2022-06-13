@@ -15,7 +15,9 @@ function Table() {
     arrayFilter,
     setPlanets,
     setFiltro,
-    options } = useContext(PlanetsContext);
+    options,
+    coluna,
+    filtroOptions } = useContext(PlanetsContext);
   useEffect(() => {
     getPlanets().then((result) => {
       setPlanets(result);
@@ -142,6 +144,8 @@ function Table() {
                   ))
               }
             </tbody>
+           { console.log(coluna)
+            }
           </table>
         )
         : 'Carregando...'}

@@ -16,6 +16,10 @@ function Provider({ children }) {
     value: 0,
   });
 
+  const [coluna, setColuna] = useState({
+    coluna: 'population',
+  });
+
   const [options, setOptions] = useState([
     'population',
     'orbital_period',
@@ -50,6 +54,9 @@ function Provider({ children }) {
     setFiltro(filtro);
     const filtroOptions = options.filter((opcao) => opcao !== filter.column);
     setOptions(filtroOptions);
+    setColuna(filtroOptions[0]);
+    console.log(filtroOptions);
+    console.log(coluna);
   };
 
   const contextValue = {
@@ -68,6 +75,7 @@ function Provider({ children }) {
     setPlanets,
     options,
     setOptions,
+    coluna,
   };
 
   return (
