@@ -7,3 +7,18 @@ Utilizar o React Hook useState;
 Utilizar o React Hook useContext;
 Utilizar o React Hook useEffect;
 Criar React Hooks customizados.
+
+Frontend
+
+Depois de clonar o repositório:
+
+cd src/ npm install.
+
+Executando aplicação:
+
+Para rodar o front-end:
+
+cd src/ && npm start Executando Testes Para rodar todos os testes:
+
+npm test
+
